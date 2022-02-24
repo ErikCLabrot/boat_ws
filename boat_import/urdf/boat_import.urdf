@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="boat_import">
+  <link
+    name="Boathouse_sim">
+    <inertial>
+      <origin
+        xyz="-0.00158073390560165 -0.0354852572635334 0.0098574311064642"
+        rpy="0 0 0" />
+      <mass
+        value="32.7447985674436" />
+      <inertia
+        ixx="2.66652976082671"
+        ixy="0.00243273566266003"
+        ixz="-0.000301365146301424"
+        iyy="3.7311837293143"
+        iyz="-0.00316536817799663"
+        izz="1.22211711559118" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://boat_import/meshes/Boathouse_sim.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.894117647058823 0.913725490196078 0.929411764705882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://boat_import/meshes/Boathouse_sim.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>
