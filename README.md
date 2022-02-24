@@ -15,9 +15,9 @@ sudo apt-get install ros-melodic-velodyne
 * mavros/mavlink - [Mavros Install](https://docs.px4.io/master/en/ros/mavros_installation.html)
 * vectornav - [Vectornav Github](https://github.com/dawonn/vectornav)
 
-Once the prerequisite workspace is configured and software is installed, this workspace can be cloned into the catkin_ws/src folder and made.
+Once the prerequisite workspace is configured and software is installed, this workspace can be cloned into the catkin_ws/src folder and made. The src folder of the workspace must be empty, including the CMakeLists.txt.
 ```bash
-git clone https://github.com/ErikCLabrot/boat_ws
+git clone https://github.com/ErikCLabrot/boat_ws .
 ```
 
 
