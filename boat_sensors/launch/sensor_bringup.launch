@@ -3,6 +3,7 @@
 <launch>
 
 	<!--Velodyne Driver -->
+	<!--
  	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_node">
  		<param name="frame_id" value="velodyne"/>
  		<param name="model" value="VLP16"/>
@@ -15,8 +16,8 @@
  		<param name="max_range" value="130.0"/>
  		<param name="min_range" value="0.9"/>
  	</node>
-
- 	<include file="$(find mavros)/launch/px4.launch" />
+-->
+<!-- 	<include file="$(find mavros)/launch/px4.launch" /> -->
  	<include file="$(find vectornav)/launch/vectornav.launch" />
 
  </launch>

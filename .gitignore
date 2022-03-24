@@ -2,4 +2,5 @@ velodyne
 mavros
 mavlink
 vectornav
+hdl_graph_slam
 /CMakeLists.txt
