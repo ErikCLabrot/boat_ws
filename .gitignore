@@ -3,4 +3,6 @@ mavros
 mavlink
 vectornav
 hdl_graph_slam
+fast_gicp
+ndt_omp
 /CMakeLists.txt
