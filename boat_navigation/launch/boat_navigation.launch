@@ -1,0 +1,8 @@
+<launch>
+
+	<include file="$(find boat_navigation)/launch/boat_tf.launch"/>
+	<include file="$(find boat_navigation)/launch/boat_sensors.launch"/>
+	<include file="$(find boat_navigation)/launch/boat_mapping.launch"/>
+	<include file="$(find boat_navigation)/launch/boat_basecontrol.launch"/>
+	
+</launch>
