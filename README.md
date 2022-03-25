@@ -7,18 +7,23 @@ Installing this package assumes you have completed the following
 * Install ros
 * Create a catkin_ws
 
-Packages necessary for this workspace to function in a particular environment
+Once the prerequisite workspace is configured and software is installed, this workspace can be cloned into the catkin_ws/src folder and made. The src folder of the workspace must be empty, including the CMakeLists.txt.
+```bash
+git clone https://github.com/ErikCLabrot/boat_ws .
+```
+Install these packages next:
 * ros-melodic-velodyne - Install via apt using 
 ```bash
 sudo apt-get install ros-melodic-velodyne
 ```
 * mavros/mavlink - [Mavros Install](https://docs.px4.io/master/en/ros/mavros_installation.html)
 * vectornav - [Vectornav Github](https://github.com/dawonn/vectornav)
-
-Once the prerequisite workspace is configured and software is installed, this workspace can be cloned into the catkin_ws/src folder and made. The src folder of the workspace must be empty, including the CMakeLists.txt.
+* Hdl-Graph-Slam - Install via apt using 
 ```bash
-git clone https://github.com/ErikCLabrot/boat_ws .
+https://github.com/koide3/hdl_graph_slam.git
 ```
+
+
 
 
 ## Usage
