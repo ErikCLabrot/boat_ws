@@ -3,19 +3,14 @@
 <launch>
 
 	<!--Velodyne Driver -->
- 	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_node">
+<!-- 	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_node">
  		<param name="frame_id" value="velodyne"/>
  		<param name="model" value="VLP16"/>
  		<param name="rpm" value="600"/>
  		<param name="port" value="2368"/>
  	</node>
-
- 	 <node pkg="velodyne_pointcloud" type="cloud_node" name="velodyne_pc_tf">
- 		<param name="model" value="VLP16"/>
- 		<param name="max_range" value="130.0"/>
- 		<param name="min_range" value="0.9"/>
- 	</node>
-
+-->
+	<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
  	<!--Px4 driver -->
 	<include file="$(find mavros)/launch/px4.launch" />
 	
