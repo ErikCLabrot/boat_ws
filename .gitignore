@@ -6,4 +6,7 @@ hdl_graph_slam
 fast_gicp
 ndt_omp
 lidar_camera_calibration
+aruco_mapping
+aruco_ros
+rqt_cam
 /CMakeLists.txt
