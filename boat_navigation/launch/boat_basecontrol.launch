@@ -1,10 +1,9 @@
 <launch>
 	<remap from="/cmd_vel" to="/mavros/setpoint_velocity/cmd_vel_unstamped"/> 
 	<node pkg="move_base" type="move_base" respawn="false" name="boat_movebase" output="screen">
-	<!--
-		<param name="base_local_planner" value="insert_local_planner"/>
-		<param name="base_global_planner" value="insert_global_planner"/>
-	-->
+
+		<param name="base_local_planner" value="DWAPlannerROS"/>
+
 		<rosparam file="$(find boat_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
 		<rosparam file="$(find boat_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
 	    <rosparam file="$(find boat_navigation)/config/local_costmap_params.yaml" command="load" />
