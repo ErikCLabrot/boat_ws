@@ -5,4 +5,5 @@ vectornav
 hdl_graph_slam
 fast_gicp
 ndt_omp
+lidar_camera_calibration
 /CMakeLists.txt

@@ -8,5 +8,5 @@ global_costmap:
     inflate_unknown: true
 
   plugins:
-    - {name: static_layer,    type: "rtabmap_ros::StaticLayer"}
+    - {name: static_layer,    type: "costmap_2d::StaticLayer"}
     - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
