@@ -16,8 +16,8 @@
   <arg name="lidar_odom_frame_id" default="odom" />
 
   <!-- optional arguments -->
-  <arg name="enable_robot_odometry_init_guess" default="false" />
-  <arg name="robot_odom_frame_id" default="robot_odom" />
+  <arg name="enable_robot_odometry_init_guess" default="true" />
+  <arg name="robot_odom_frame_id" default="odom" />
 
   <!-- prefiltering_nodelet -->
   <node pkg="nodelet" type="nodelet" name="prefiltering_nodelet" args="load hdl_graph_slam/PrefilteringNodelet $(arg nodelet_manager)">

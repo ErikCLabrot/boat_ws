@@ -1,4 +1,6 @@
 <launch>
+
+	
 	<node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pc2l_node">
 		<remap from="cloud_in" to="velodyne_points"/>
 		<remap from="scan" to="pc2l/scan"/>
@@ -22,7 +24,7 @@
 		<remap from="scan" to="pc2l/scan"/>
 		<param name="base_frame" value="base_link"/>
 		<param name="map_frame" value="map"/>
-		<param name="odom_frame" value="odom"/>
+		<param name="odom_frame" value="vectornav"/>
 		<param name="throttle_scans" value="1"/>
 <!--
 		<param name="map_update_interval" value="5.0"/>
