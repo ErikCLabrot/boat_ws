@@ -1,6 +1,8 @@
 <launch>
 
 	
+	<node pkg="boat_navigation" type="VN300_TF_node" name="VN300_TF_Pub"/>
+
 	<node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pc2l_node">
 		<remap from="cloud_in" to="velodyne_points"/>
 		<remap from="scan" to="pc2l/scan"/>
@@ -13,7 +15,7 @@
 	  <arg name="manager" default="velodyne_nodelet_manager" />
 	  <arg name="ring" default="-1" />
 	  <arg name="resolution" default="0.007" />
-
+	  
 	<node pkg="nodelet" type="nodelet" name="$(arg manager)_laserscan" args="load velodyne_laserscan/LaserScanNodelet $(arg manager)">
 		<param name="ring" value="$(arg ring)"/>
 		<param name="resolution" value="$(arg resolution)"/>

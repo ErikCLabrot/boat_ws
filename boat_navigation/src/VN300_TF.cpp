@@ -4,10 +4,10 @@
 
 void tf_CB(const nav_msgs::Odometry::ConstPtr& VN300_Odom)
 {
-	tf::TransformBroadcaster tf_broadcaster;
+	static tf::TransformBroadcaster tf_broadcaster;
 
 	geometry_msgs::TransformStamped odom_tf;
-	odom_tf.header.frame_id = "odom";//VN300_Odom->header.frame_id;
+	odom_tf.header.frame_id = "odom";	//VN300_Odom->header.frame_id;
 	odom_tf.child_frame_id = "base_link";//VN300_Odom->child_frame_id;
 
 	odom_tf.transform.translation.x = VN300_Odom->pose.pose.position.x;
@@ -19,9 +19,6 @@ void tf_CB(const nav_msgs::Odometry::ConstPtr& VN300_Odom)
 	odom_tf.header.stamp = ros::Time::now();
 
 	tf_broadcaster.sendTransform(odom_tf);
-
-	std::cout << "Broadcast sent\n";
-
 }
 
 
