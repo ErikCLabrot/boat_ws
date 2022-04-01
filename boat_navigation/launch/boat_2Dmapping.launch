@@ -7,7 +7,10 @@
 		<remap from="cloud_in" to="velodyne_points"/>
 		<remap from="scan" to="pc2l/scan"/>
         <rosparam>
-            concurrency_level: 1
+            concurrency_level: 0
+            use_inf: false
+            range_min: 0.5
+            range_max: 40
         </rosparam>
 	</node>
 
@@ -26,7 +29,7 @@
 		<remap from="scan" to="pc2l/scan"/>
 		<param name="base_frame" value="base_link"/>
 		<param name="map_frame" value="map"/>
-		<param name="odom_frame" value="vectornav"/>
+		<param name="odom_frame" value="odom"/>
 		<param name="throttle_scans" value="1"/>
 <!--
 		<param name="map_update_interval" value="5.0"/>

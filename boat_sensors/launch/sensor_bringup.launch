@@ -3,8 +3,7 @@
 <launch>
 
 	<!--Velodyne Driver -->
-	<!--
- 	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_node">
+<!-- 	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_node">
  		<param name="frame_id" value="velodyne"/>
  		<param name="model" value="VLP16"/>
  		<param name="rpm" value="600"/>
@@ -18,6 +17,7 @@
  	</node>
 -->
 <!-- 	<include file="$(find mavros)/launch/px4.launch" /> -->
+	<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
  	<include file="$(find vectornav)/launch/vectornav.launch" />
 
  </launch>
