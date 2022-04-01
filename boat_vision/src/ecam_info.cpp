@@ -1,3 +1,5 @@
+//TODO: Improve message instantiation. Generalize for multiple cameras.
+
 #include <ros/ros.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <vector>
@@ -5,6 +7,8 @@
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "ecam_info_node");
+
+	std::string frame_id = "ecam_left";
 	int seq = 0;
 	int h;
 	int w;
@@ -26,7 +30,7 @@ int main(int argc, char **argv)
 	nh.getParam("rectification", rectification);
 	nh.getParam("projection", projection);
 
-	ros::Publisher camInfo = nh.advertise<sensor_msgs::CameraInfo>("ecam_info", 10);
+	ros::Publisher camInfo = nh.advertise<sensor_msgs::CameraInfo>(frame_id + "/ecam_info", 10);
 
 	sensor_msgs::CameraInfo info_msg;
 
