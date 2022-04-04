@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   tf
+  PCL REQUIRED
+  OpenCV REQUIRED
 )
 
 ## System dependencies are found with CMake's conventions
@@ -117,8 +119,10 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  #include
   ${catkin_INCLUDE_DIRS}
+  $(PCL_INCLUDE_DIRS)
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -137,6 +141,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/boat_vision_node.cpp)
 
 add_executable(ecam_info_node src/ecam_info.cpp)
+add_executable(point_projection_node src/point_projection.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -149,10 +154,8 @@ add_executable(ecam_info_node src/ecam_info.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(ecam_info_node
-   ${catkin_LIBRARIES}
- )
-
+ target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
+ target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} )
 #############
 ## Install ##
 #############
