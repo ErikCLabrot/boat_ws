@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include <image_transport/image_transport.h>
 //PCL inclusions
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_cloud.h>
@@ -6,12 +7,14 @@
 #include <pcl/filters/filter.h>
 //ROS sensormsg types
 #include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/PointCloud2.h>
 //Matrix&Vector math
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <cv_bridge/cv_bridge.h>
 #include <vector>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
@@ -19,6 +22,7 @@ typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 PointCloud filteredPCL;
 sensor_msgs::Image imageIn;
 sensor_msgs::CameraInfo infoIn;
+cv_bridge::CvImagePtr cv_ptr;
 
 bool img_ready;
 bool pcl_ready;
@@ -27,11 +31,14 @@ bool info_ready;
 void imageCB(const sensor_msgs::Image::ConstPtr& img_in)
 {
 //	imageIn = &img_in;
-	imageIn.height = img_in->height;
+/*	imageIn.height = img_in->height;
 	imageIn.width = img_in->width;
 	imageIn.encoding = img_in->encoding;
 	imageIn.step = img_in->step;
 	imageIn.data = img_in->data;
+*/
+	cv_ptr = cv_bridge::toCvCopy(img_in, sensor_msgs::image_encodings::RGB8);
+
 	img_ready = true;
 }
 
@@ -72,7 +79,7 @@ int main(int argc, char **argv)
 	std::vector<float> T;
 	//Topic names, to be parameterized
 	std::string imageTopic = "/ecam_left/image";
-	std::string infoTopic = "ecam_left/cameraInfo";
+	std::string infoTopic = "/ecam_left/cameraInfo";
 	std::string pclTopic = "/velodyne_points";
 	std::string projectionTopic = "/projected_points";
 	//Ros initialization
@@ -101,9 +108,11 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 
-
 	PointCloud transformed_cloud;
 	std::vector<cv::Point> transformed_points;
+	cv::Mat layer1;
+	cv::Mat layer2;
+
 	int loopCount = 0;
 	while(ros::ok())
 	{
@@ -135,18 +144,30 @@ int main(int argc, char **argv)
 			}
 
 			//Construct openCV image to check point transformation. If it works, begin working on getting it backwards.
+			layer1 = cv_ptr->image; //bottom layer
+			layer2 = layer1.clone(); //opacity layer
 
-						
+			int red = 0;
+			int green = 128;
+			int blue = 0;
+			for(int i = 0; i < transformed_points.size(); i++)
+			{
+				cv::circle(layer2, transformed_points.at(i), 5, cv::Scalar(red, green, blue), -1);
+			}
+
+			float opacity = 0.6;
+			cv::addWeighted(layer2, opacity, layer1, 1-opacity, 0, layer1);
+
+			projectionPub.publish(cv_ptr->toImageMsg());
+
+			plc_ready = false;
+			img_readu = false;
+			info_ready = false;
+
 		}
-
-
 
 		ros::spinOnce();
 		checkRate.sleep();
 		loopCount++;
 	}
-
-
-
-
 }

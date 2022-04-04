@@ -7,7 +7,9 @@ project(boat_vision)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+set(OpenCV_DIR /usr/share/OpenCV/)  
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   roscpp
   sensor_msgs
   std_msgs
@@ -155,7 +157,7 @@ add_executable(point_projection_node src/point_projection.cpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
- target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} )
+ target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
 #############
 ## Install ##
 #############
