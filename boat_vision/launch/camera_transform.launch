@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <rosparam file="$(find boat_vision)/config/ecam_left_info.yaml" command="load"/>
+  <rosparam command="load" file="$(find boat_vision)/config/calibration.yaml" />
+  <node pkg="boat_vision" type="ecam_info_node" name="ecam_info_node"/>
+
+
+  <node pkg="lidar_camera_calibration" type="find_transform" name="find_transform" output="screen">
+  </node>
+</launch>
