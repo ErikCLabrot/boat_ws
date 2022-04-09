@@ -1,5 +1,5 @@
 lidar_camera_calibration:
-  camera_frame_topic: /ecam_left
+  camera_frame_topic: /ecam/image_raw
   camera_info_topic: /ecam_left/ecam_info
   velodyne_topic: /velodyne_points
 

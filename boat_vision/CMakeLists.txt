@@ -144,6 +144,8 @@ include_directories(
 
 add_executable(ecam_info_node src/ecam_info.cpp)
 add_executable(point_projection_node src/point_projection.cpp)
+add_executable(ecam_undistort_node src/ecam_undistort.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -158,6 +160,8 @@ add_executable(point_projection_node src/point_projection.cpp)
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
  target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
+ target_link_libraries(ecam_undistort_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
 #############
 ## Install ##
 #############

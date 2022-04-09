@@ -23,13 +23,14 @@
                 <arg name="flip_vertical" value="false" />
                 <!-- force width and height, 0 means no forcing -->
         
-            <arg name="width" value="1920"/>
-            <arg name="height" value="1080"/>
+            <arg name="width" value="1280"/>
+            <arg name="height" value="720"/>
 
                 <!-- visualize on an image_view window the stream generated -->
                 <arg name="visualize" value="false" />
    </include>
 
    <include file="$(find boat_vision)/launch/ecam_info.launch"/>
+   <node pkg="boat_vision" type="ecam_undistort_node" name="ecam_undistort_node"/>
 
 </launch>                   

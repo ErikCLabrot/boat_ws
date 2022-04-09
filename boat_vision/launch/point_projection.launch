@@ -1,0 +1,8 @@
+<launch>
+	
+	<include file="$(find boat_vision)/launch/ecam.launch"/>
+	<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"/>
+
+	<node pkg="boat_vision" type="point_projection_node" name="point_projection_node"/>
+
+</launch>

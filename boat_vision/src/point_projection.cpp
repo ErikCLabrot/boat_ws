@@ -38,7 +38,7 @@ void imageCB(const sensor_msgs::Image::ConstPtr& img_in)
 	imageIn.step = img_in->step;
 	imageIn.data = img_in->data;
 */
-	std::cout << "imagecb\n";
+//	std::cout << "imagecb\n";
 	cv_ptr = cv_bridge::toCvCopy(img_in, sensor_msgs::image_encodings::RGB8);
 
 	img_ready = true;
@@ -54,7 +54,7 @@ void infoCB(const sensor_msgs::CameraInfo::ConstPtr& info_in)
 //	infoIn.R = info_in->R;
 	for(int i = 0; i < 12; i++)
 		infoIn.P[i] = info_in->P[i];
-	std::cout << "infocb\n";
+//	std::cout << "infocb\n";
 	info_ready = true;
 }
 
@@ -64,7 +64,7 @@ void pclCB(const sensor_msgs::PointCloud2::ConstPtr& pcl_in)
 	std::vector<int> indices;
 	pcl::fromROSMsg(*pcl_in, temp_pcl);
 	pcl::removeNaNFromPointCloud(temp_pcl, filteredPCL, indices);
-	std::cout << "pclcb\n";
+//	std::cout << "pclcb\n";
 	pcl_ready = true;
 }
 
@@ -79,9 +79,9 @@ int main(int argc, char **argv)
 	pcl_ready = false;
 	info_ready = false;
 
-	std::vector<float> T;
+	std::vector<double> T;
 	//Topic names, to be parameterized
-	std::string imageTopic = "/ecam/image_raw";
+	std::string imageTopic = "/ecam/image_rect";
 	std::string infoTopic = "/ecam_left/ecam_info";
 	std::string pclTopic = "/velodyne_points";
 	std::string projectionTopic = "/projected_points";
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
 	//Get params
 	nh.getParam("T", T);
 
-	cv::Mat RT(4,4,cv::DataType<double>::type, T.data(), T.size());
+	cv::Mat RT(4,4,cv::DataType<double>::type);
 	cv::Mat x(4,1, cv::DataType<double>::type);
 	cv::Mat y(3,1, cv::DataType<double>::type);
 	cv::Mat P(3,4, cv::DataType<double>::type);
@@ -108,8 +108,11 @@ int main(int argc, char **argv)
 	if(T.size() < 16)
 	{
 		std::cout << "Error! Rigid body transform matrix is not 4x4.\n";
+		std::cout << "Size is " << T.size();
 		exit(1);
 	}
+
+	memcpy(RT.data, T.data(), T.size()*sizeof(double) );
 
 	PointCloud transformed_cloud;
 	std::vector<cv::Point> transformed_points;
@@ -122,19 +125,14 @@ int main(int argc, char **argv)
 
 		if(pcl_ready && img_ready && info_ready)
 		{
-
-			std::cout << "Prepping image\n";
 			//Do transform
 			pcl::toROSMsg(filteredPCL, pubPCL);
 			filteredPCLPub.publish(pubPCL);
 			//get Prect from caminfo
-			std::cout << "1 ";
 			P = cv::Mat(3,4, cv::DataType<double>::type, &infoIn.P);
-			std::cout << RT << std::endl;
-			std::cout << P << std::endl;
+			std::cout << P << RT;
 			//Transform all points from lidar to cam frame
 			//Could also try pcl::transformPointCloud
-			std::cout << "2 ";
 			for(auto iterator = filteredPCL.begin(); iterator != filteredPCL.end(); iterator++)
 			{
 				x.at<double>(0,0) = iterator->x;
@@ -151,21 +149,18 @@ int main(int argc, char **argv)
 				tf_pt.y = y.at<double>(1,0)/y.at<double>(0,2);
 				transformed_points.push_back(tf_pt);
 			}
-			std::cout << "3 ";
 			//Construct openCV image to check point transformation. If it works, begin working on getting it backwards.
 			layer1 = cv_ptr->image; //bottom layer
 			layer2 = layer1.clone(); //opacity layer
 
-			std::cout << "4 ";
 			int red = 0;
 			int green = 128;
 			int blue = 0;
 			for(int i = 0; i < transformed_points.size(); i++)
 			{
-				cv::circle(layer2, transformed_points.at(i), 5, cv::Scalar(red, green, blue), -1);
+				cv::circle(layer2, transformed_points.at(i), 0, cv::Scalar(red, green, blue), -1);
 			}
 
-			std::cout << "5 ";
 			float opacity = 0.6;
 			cv::addWeighted(layer2, opacity, layer1, 1-opacity, 0, layer1);
 

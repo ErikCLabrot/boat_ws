@@ -2,5 +2,4 @@
 	<rosparam file="$(find boat_vision)/config/ecam_left_info.yaml" command="load"/>
 
 	<node pkg="boat_vision" type="ecam_info_node" name="ecam_info_node"/>
-
 </launch>
