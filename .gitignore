@@ -9,4 +9,6 @@ lidar_camera_calibration
 aruco_mapping
 aruco_ros
 rqt_cam
+cam_lidar_calibration
+usb_cam
 /CMakeLists.txt

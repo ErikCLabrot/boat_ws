@@ -48,13 +48,13 @@ void infoCB(const sensor_msgs::CameraInfo::ConstPtr& info_in)
 {
 	infoIn.height = info_in->height;
 	infoIn.width = info_in->width;
-//	infoIn.distortion_model = info_in->distortion_model;
-//	infoIn.D = info_in->D;
-//	infoIn.K = info_in->K;
-//	infoIn.R = info_in->R;
+	infoIn.distortion_model = info_in->distortion_model;
+	infoIn.D = info_in->D;
+	infoIn.K = info_in->K;
+	infoIn.R = info_in->R;
 	for(int i = 0; i < 12; i++)
 		infoIn.P[i] = info_in->P[i];
-//	std::cout << "infocb\n";
+	std::cout << "infocb\n";
 	info_ready = true;
 }
 
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 
 	std::vector<double> T;
 	//Topic names, to be parameterized
-	std::string imageTopic = "/ecam/image_rect";
+	std::string imageTopic = "/ecam/image_raw";
 	std::string infoTopic = "/ecam_left/ecam_info";
 	std::string pclTopic = "/velodyne_points";
 	std::string projectionTopic = "/projected_points";

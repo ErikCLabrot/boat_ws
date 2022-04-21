@@ -12,7 +12,7 @@
 -->
 	<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
  	<!--Px4 driver -->
-	<include file="$(find mavros)/launch/px4.launch" />
+	<include file="$(find mavros)/launch/px4.launch" /> 
 	
 	<!--Vectornav driver -->
  	<include file="$(find vectornav)/launch/vectornav.launch" />

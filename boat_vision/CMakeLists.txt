@@ -14,7 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   tf
-  PCL REQUIRED
+  pcl_ros
+  pcl_conversions
   OpenCV REQUIRED
 )
 
@@ -126,6 +127,8 @@ include_directories(
   $(PCL_INCLUDE_DIRS)
   ${OpenCV_INCLUDE_DIRS}
 )
+
+link_directories({$(PCL_LIBRARY_DIRS)})
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
