@@ -16,8 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   pcl_ros
   pcl_conversions
-  OpenCV REQUIRED
 )
+find_package(OpenCV REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -122,10 +122,11 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  #include
+  include
   ${catkin_INCLUDE_DIRS}
   $(PCL_INCLUDE_DIRS)
   ${OpenCV_INCLUDE_DIRS}
+
 )
 
 link_directories({$(PCL_LIBRARY_DIRS)})
@@ -146,8 +147,9 @@ link_directories({$(PCL_LIBRARY_DIRS)})
 # add_executable(${PROJECT_NAME}_node src/boat_vision_node.cpp)
 
 add_executable(ecam_info_node src/ecam_info.cpp)
-add_executable(point_projection_node src/point_projection.cpp)
+# add_executable(point_projection_node src/point_projection.cpp)
 add_executable(ecam_undistort_node src/ecam_undistort.cpp)
+add_executable(point_distance_node src/point_distance.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -162,9 +164,9 @@ add_executable(ecam_undistort_node src/ecam_undistort.cpp)
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
- target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
+# target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
  target_link_libraries(ecam_undistort_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
-
+ target_link_libraries(point_distance_node ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
 #############
 ## Install ##
 #############
