@@ -92,10 +92,10 @@ int main(int argc, char* argv[])
     ros::NodeHandle nh;
     ros::Rate checkRate = 100;
 
-    std::string pcl_topic;
-    std::string gps_topic;
-    std::string bb_topic;
-    std::string compass_topic;
+    std::string pcl_topic = "/velodyne_points";
+    std::string gps_topic = "/mavros/global_position/global";
+    std::string bb_topic; = "
+    std::string compass_topic = "/mavros/global_position/compass_hdg";
 
     mavros_msgs::WaypointPush mission;
 
@@ -204,7 +204,11 @@ int main(int argc, char* argv[])
             point.param1 = 0;
             point.param2 = 1;
             point.param3 = 0;
-            
+           
+	    //Push home position
+	    point.x_lat = gpsmsg.latitude;
+	    point.y_long = gpsmsg.longitude;
+	    mission.request.waypoints.push_back(point);
             //Calculate angle 1.5m to 'left'
             double x2 = xcoord;
             double y2 = ycoord + 1.5;

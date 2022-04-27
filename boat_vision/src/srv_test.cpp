@@ -63,9 +63,14 @@ int main(int argc, char* argv[])
 
     		mavros_msgs::WaypointPush mission;
 
+		//wp0
+		std::cout << "Calculating wp0\n";
+		point.x_lat = gpsmsg.latitude;
+		point.y_long = gpsmsg.longitude;
+		mission.request.waypoints.push_back(point);
     		//wp1
-    		wpsrvc.request.dist = 1;
-    		wpsrvc.request.head = heading;
+    		wpsrvc.request.dist = 3;
+   		wpsrvc.request.head = heading;
     		if(distclnt.call(wpsrvc))
     		{
     			std::cout << "Calculating wp1\n";
@@ -78,7 +83,7 @@ int main(int argc, char* argv[])
                 std::cout << "distance service call failed!\n";
 
     		//wp2
-    		wpsrvc.request.dist = 1.41421356237;
+    		wpsrvc.request.dist = 3*1.41421356237;
     		if(heading < 45)
     			wpsrvc.request.head = 360-45;
     		else
@@ -94,7 +99,7 @@ int main(int argc, char* argv[])
             else
                 std::cout << "distance service call failed!\n";
 
-    		wpsrvc.request.dist = 1;
+    		wpsrvc.request.dist = 3;
     		if(heading < 90)
     			wpsrvc.request.head = 360-90;
     		else
