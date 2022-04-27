@@ -156,7 +156,7 @@ add_executable(ecam_info_node src/ecam_info.cpp)
 add_executable(ecam_undistort_node src/ecam_undistort.cpp)
 add_executable(point_distance_node src/point_distance.cpp)
 add_executable(poc_node src/poc.cpp)
-
+add_executable(srv_test_node src/srv_test.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -168,13 +168,14 @@ add_executable(poc_node src/poc.cpp)
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(poc_node ${catkin_EXPORTED_TARGETS})
-
+add_dependencies(srv_test_node ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
 # target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
  target_link_libraries(ecam_undistort_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
  target_link_libraries(point_distance_node ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
  target_link_libraries(poc_node ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
+ target_link_libraries(srv_test_node ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############

@@ -195,6 +195,9 @@ int main(int argc, char* argv[])
             sensor_msgs::NavSatFix wp;
             boat_vision::calc_gps wpsrvc;
 
+            wpsrvc.request.pos.latitude = gpsmsg.latitude;
+            wpsrvc.request.pos.longitude = gpsmsg.longitude;
+
             mavros_msgs::Waypoint point;
             point.frame = 0;
             point.command = 16;
