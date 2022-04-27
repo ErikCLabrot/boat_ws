@@ -14,6 +14,7 @@ def service_handle(request):
 	msg.header.stamp = rospy.Time.now()
 	msg.latitude = end_point.latitude
 	msg.longitude = end_point.longitude
+	print(end_point.latitude, end_point.longitude)
 	return calc_gpsResponse(msg)
 
 def service_server():
