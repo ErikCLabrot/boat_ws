@@ -12,12 +12,17 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   roscpp
   sensor_msgs
+  mavros_msgs
   std_msgs
   tf
   pcl_ros
   pcl_conversions
+  message_generation
+  message_runtime
+  cv_basics
 )
 find_package(OpenCV REQUIRED)
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -60,11 +65,10 @@ find_package(OpenCV REQUIRED)
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   FILES
+   calc_gps.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -74,11 +78,13 @@ find_package(OpenCV REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   sensor_msgs#   std_msgs
-# )
-
+ generate_messages(
+   DEPENDENCIES
+   sensor_msgs   std_msgs
+ )
+catkin_package(
+  CATKIN_DEPENDS cv_basics roscpp std_msgs sensor_msgs message_runtime
+  )
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -109,10 +115,10 @@ find_package(OpenCV REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES boat_vision
-#  CATKIN_DEPENDS roscpp sensor_msgs std_msgs tf
-#  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES boat_vision
+  CATKIN_DEPENDS roscpp sensor_msgs std_msgs tf
+  DEPENDS system_lib
 )
 
 ###########
@@ -140,7 +146,6 @@ link_directories({$(PCL_LIBRARY_DIRS)})
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
@@ -150,6 +155,7 @@ add_executable(ecam_info_node src/ecam_info.cpp)
 # add_executable(point_projection_node src/point_projection.cpp)
 add_executable(ecam_undistort_node src/ecam_undistort.cpp)
 add_executable(point_distance_node src/point_distance.cpp)
+add_executable(poc_node src/poc.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -161,12 +167,14 @@ add_executable(point_distance_node src/point_distance.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(poc_node ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
  target_link_libraries(ecam_info_node ${catkin_LIBRARIES} )
 # target_link_libraries(point_projection_node ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${OpenCV_LIBS})
  target_link_libraries(ecam_undistort_node ${catkin_LIBRARIES} ${OpenCV_LIBS})
  target_link_libraries(point_distance_node ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
+ target_link_libraries(poc_node ${catkin_LIBRARIES} ${OpenCV_LIBS} ${PCL_LIBRARIES})
 #############
 ## Install ##
 #############

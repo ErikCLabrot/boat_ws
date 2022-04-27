@@ -1,0 +1,5 @@
+float64 dist
+float64 head
+sensor_msgs/NavSatFix pos
+---
+sensor_msgs/NavSatFix coord

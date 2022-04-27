@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
         planepointsC.x = cameramat.at<double>(0, 0) * planepointsC.x + cameramat.at<double>(0, 2);
         planepointsC.y = cameramat.at<double>(1, 1) * planepointsC.y + cameramat.at<double>(1, 2);
 
-        if (planepointsC.y >= midy-10 and planepointsC.y < midy+10 and planepointsC.x >= midx-10 and planepointsC.x < midx+10 and tmpzC >= 0 and std::abs(tmpxC) <= 1.35) 
+        if (planepointsC.y >= midy-10 and planepointsC.y < midy+10 and planepointsC.x >= midx-10 and planepointsC.x < midx and tmpzC >= 0 and std::abs(tmpxC) <= 1.35) 
         {
             int point_size = 2;
             cv::circle(image,
