@@ -11,6 +11,7 @@ set(OpenCV_DIR /usr/share/OpenCV/)
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   roscpp
+  rospy
   sensor_msgs
   mavros_msgs
   std_msgs
@@ -31,7 +32,7 @@ find_package(OpenCV REQUIRED)
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+ catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -158,6 +159,9 @@ add_executable(point_distance_node src/point_distance.cpp)
 add_executable(poc_node src/poc.cpp)
 add_executable(srv_test_node src/srv_test.cpp)
 
+catkin_install_python(PROGRAMS scripts/calc_gps_server.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

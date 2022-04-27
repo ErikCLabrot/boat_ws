@@ -1,0 +1,10 @@
+<launch>
+
+	<include file="$(find mavros)/launch/px4.launch"/>
+
+	<node pkg="boat_vision" type="srv_test_node" name="service_test_node"/>
+
+	<node pkg="boat_vision" type="calc_gps_server.py" name="service_server_node"/>
+
+
+</launch>

@@ -1,6 +1,5 @@
-#!/user/bin/env python
-
-from mavros_msgs import NavSatFix
+#!/usr/bin/env python
+from sensor_msgs.msg import NavSatFix
 from boat_vision.srv import calc_gps,calc_gpsResponse
 import geopy
 import geopy.distance
@@ -8,10 +7,9 @@ import math
 import rospy
 
 def service_handle(request):
-	bearing = math.degrees(request.head)
 	dist_feet = 3.281 * request.dist
-	start_point = geopy.Point(pos.latitude, pos.longitude)
-	end_point = geopy.distance.geodesic(feet=dist_feet).destination(start_point, bearing)
+	start_point = geopy.Point(request.pos.latitude, request.pos.longitude)
+	end_point = geopy.distance.geodesic(feet=dist_feet).destination(start_point, request.head)
 	msg = NavSatFix()
 	msg.header.stamp = rospy.Time.now()
 	msg.latitude = end_point.latitude

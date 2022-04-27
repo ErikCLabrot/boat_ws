@@ -11,4 +11,5 @@ aruco_ros
 rqt_cam
 cam_lidar_calibration
 usb_cam
+opencvROS
 /CMakeLists.txt
