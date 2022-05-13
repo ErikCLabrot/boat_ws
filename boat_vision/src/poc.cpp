@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
 
     std::string pcl_topic = "/velodyne_points";
     std::string gps_topic = "/mavros/global_position/global";
-    std::string bb_topic; = "
+    std::string bb_topic = "/object";
     std::string compass_topic = "/mavros/global_position/compass_hdg";
 
     mavros_msgs::WaypointPush mission;
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
     ros::Subscriber bb_sub = nh.subscribe(bb_topic, 1000, boxCB);
 
     ros::ServiceClient wpclnt = nh.serviceClient<mavros_msgs::WaypointPush>("mavros/mission/push");
-    ros::ServiceClient distclnt = nh.serviceClient<boat_vision::calc_gps>("/calc_gps_server");
+    ros::ServiceClient distclnt = nh.serviceClient<boat_vision::calc_gps>("calc_gps");
 
     //Lidar to Camera TF setup
     double K[9] = {720.5586936276926, 0.0, 638.2821742216654, 0.0, 722.4747616491345, 351.7413179250099, 0.0, 0.0, 1.0};
@@ -141,13 +141,16 @@ int main(int argc, char* argv[])
     while(loop && ros::ok())
     {
         if(bb_ready && pcl_ready && gps_ready && reading_ready)
-        {
+        {   
+            std::cout << "Sensor measurements received\n";
             loop = !loop;
             //Compute lidar transform
             int midx = (bounds.x + bounds.xw)/2;
             int midy = (bounds.y + bounds.yh)/2;
 
             pcl::PointCloud<pcl::PointXYZIR>::const_iterator it;
+
+            std::cout << "Calculating lidar transform\n";
             for(it = tf_cloud->begin(); it != tf_cloud->end(); it++)
             {
                 double tmpxC = it->x / it->z;
@@ -192,6 +195,8 @@ int main(int argc, char* argv[])
                 ycoord = ycoord/indices.size();
                 zcoord = zcoord/indices.size();
             }
+
+            std::cout << "XYZ pose calculated: " << xcoord << " " << ycoord << " " << zcoord << std::endl;
             sensor_msgs::NavSatFix wp;
             boat_vision::calc_gps wpsrvc;
 
@@ -205,10 +210,11 @@ int main(int argc, char* argv[])
             point.param2 = 1;
             point.param3 = 0;
            
-	    //Push home position
-	    point.x_lat = gpsmsg.latitude;
-	    point.y_long = gpsmsg.longitude;
-	    mission.request.waypoints.push_back(point);
+    	    //Push home position
+    	    point.x_lat = gpsmsg.latitude;
+    	    point.y_long = gpsmsg.longitude;
+    	    mission.request.waypoints.push_back(point);
+	    std::cout << heading << " " << point.x_lat << " " << point.y_long << std::endl;
             //Calculate angle 1.5m to 'left'
             double x2 = xcoord;
             double y2 = ycoord + 1.5;
@@ -231,16 +237,17 @@ int main(int argc, char* argv[])
             {
                 wp.latitude = wpsrvc.response.coord.latitude;
                 wp.longitude = wpsrvc.response.coord.longitude;
+                std::cout << "Waypoint 1 calculated\n";
             }
 
 
             point.x_lat = wp.latitude;
             point.y_long = wp.longitude;
-
+	    std::cout << angle << " " << point.x_lat << " " << point.y_long << std::endl;
             mission.request.waypoints.push_back(point);
 
             //calculate waypoint 1.5m back
-            double x3 = xcoord + 1.5;
+            double x3 = xcoord + 3;
             double y3 = ycoord;
             double dist3 = pow(x3*x3 + y3*y3, 0.5);
             dot = (xcoord*x3) + (ycoord * y3);
@@ -254,6 +261,8 @@ int main(int argc, char* argv[])
             }
             else
                 angle = heading - angle;
+	    std::cout << angle << " " << point.x_lat << " " << point.y_long << std::endl;
+
             //call coordinate service here
             wpsrvc.request.dist = dist3;
             wpsrvc.request.head = angle;
@@ -261,6 +270,7 @@ int main(int argc, char* argv[])
             {
                 wp.latitude = wpsrvc.response.coord.latitude;
                 wp.longitude = wpsrvc.response.coord.longitude;
+                std::cout << "Waypoint 2 calculated\n";
             }
 
             point.x_lat = wp.latitude;
